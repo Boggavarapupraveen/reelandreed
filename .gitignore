@@ -1,0 +1,28 @@
+# Python
+__pycache__/
+*.py[cod]
+.pytest_cache/
+.venv/
+.vendor/
+.deps/
+.wheels/
+.testdeps/
+.tmp/
+pip-tmp/
+pip-tmp-*/
+py-probe/
+tmpprobe/
+install.log
+
+# Runtime caches and large model files
+.cache/
+models/
+acl-recovery/
+
+# OS / editor
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+dist/
