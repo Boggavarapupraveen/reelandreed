@@ -31,7 +31,7 @@ def test_vader_lexicon_reads_clear_examples():
 def test_classical_outputs_are_well_formed():
     scores, labels, confidences = score_classical(
         ["A wonderful, moving film.", "A boring, awful mess.", "It was fine."],
-        ["The Shawshank Redemption", "Cats", "Inception"],
+        ["TEMPER", "RRR", "PARADISE"],
     )
     assert len(scores) == 3
     assert set(labels).issubset({"Positive", "Neutral", "Negative"})
@@ -43,7 +43,7 @@ def test_classical_outputs_are_well_formed():
 
 
 def test_analysis_bundle_is_coherent():
-    bundle = analyze_title("The Shawshank Redemption", include_transformer=False)
+    bundle = analyze_title("TEMPER", include_transformer=False)
     assert bundle.overall_label in {"Positive", "Neutral", "Negative"}
     assert 0 <= bundle.overall_score_100 <= 100
     assert 0 <= bundle.confidence <= 1
@@ -66,7 +66,7 @@ def test_every_film_runs_offline():
 
 
 def test_distribution_and_agreement_matrix():
-    bundle = analyze_title("Cats", include_transformer=False)
+    bundle = analyze_title("RRR", include_transformer=False)
     distribution = label_distribution(bundle.frame)
     assert distribution["count"].sum() == 24
     assert list(distribution["label"]) == ["Negative", "Neutral", "Positive"]

@@ -2,7 +2,9 @@
 
 from __future__ import annotations
 
+import base64
 import html
+from pathlib import Path
 
 import streamlit as st
 
@@ -96,7 +98,9 @@ hr { border-color: var(--line); }
 .mini-heading { font-size:.6rem; letter-spacing:.15em; text-transform:uppercase; color:var(--muted); font-weight:700; margin:.2rem 0 .35rem; }
 
 /* Film banner */
-.film-banner { display:grid; grid-template-columns:auto 1fr auto; gap:1.4rem; align-items:center; border:1px solid var(--line); border-left:7px solid var(--accent); background:linear-gradient(100deg, var(--soft), var(--card) 60%); border-radius:16px; padding:1.25rem 1.45rem; margin:.35rem 0 1.3rem; }
+.film-banner { display:grid; grid-template-columns:auto auto 1fr auto; gap:1.4rem; align-items:center; border:1px solid var(--line); border-left:7px solid var(--accent); background:linear-gradient(100deg, var(--soft), var(--card) 60%); border-radius:16px; padding:1.25rem 1.45rem; margin:.35rem 0 1.3rem; }
+.film-poster-wrap { width:74px; height:104px; border-radius:8px; overflow:hidden; box-shadow:0 6px 18px rgba(0,0,0,0.22); border:1.5px solid var(--accent); flex-shrink:0; background:#000; }
+.film-poster-img { width:100%; height:100%; object-fit:cover; display:block; }
 .film-mark { width:66px; height:82px; border-radius:8px; background:var(--accent); color:#FFF9EC; display:flex; flex-direction:column; justify-content:space-between; align-items:center; padding:.55rem 0 .45rem; box-shadow:0 8px 20px color-mix(in srgb, var(--accent) 28%, transparent); }
 .film-mark span { font-size:.5rem; letter-spacing:.15em; opacity:.8; }
 .film-mark strong { font-family:var(--serif); font-size:1.5rem; font-weight:500; line-height:1; }
@@ -282,9 +286,21 @@ def section_head(number: str, title: str, note: str = "") -> None:
 
 
 def film_banner(film, stats: dict) -> None:
+    poster_html = ""
+    poster_attr = getattr(film, "poster", None)
+    if poster_attr:
+        pp = Path(poster_attr)
+        if not pp.is_absolute():
+            pp = Path(__file__).resolve().parents[1] / poster_attr
+        if pp.exists():
+            import base64
+            b64 = base64.b64encode(pp.read_bytes()).decode("utf-8")
+            poster_html = f'<div class="film-poster-wrap"><img src="data:image/jpeg;base64,{b64}" alt="{html.escape(film.title)} poster" class="film-poster-img" /></div>'
+
     st.markdown(
         f"""
 <div class="film-banner" style="--accent:{film.accent}; --soft:{film.accent_soft};">
+  {poster_html}
   <div class="film-mark"><span>FILM</span><strong>{html.escape(film.mark)}</strong><span>{film.number}</span></div>
   <div class="film-main">
     <h2>{html.escape(film.title)}</h2>

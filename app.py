@@ -514,16 +514,15 @@ def render_corpus_tab(corpus: pd.DataFrame, selected_title: str) -> None:
     with st.expander("How the corpus was built", expanded=False):
         st.markdown(
             """
-The corpus contains **24 review excerpts for each of five fixed films**: *The Shawshank Redemption*, *The Dark Knight*,
-*Inception*, *La La Land*, and *Cats*. The excerpts are short, opinionated review-style texts written for this project and
+The corpus contains **24 review excerpts for each of four films**: *TEMPER*, *RRR*, *RYALASEEMA RAMANNA CHOWDARY*, and *PARADISE*. The excerpts are short, opinionated review-style texts written for this project and
 anonymised by source type: critic capsule, audience review, film blog, or forum post.
 
 - **No live scraping** is required, so the demo is reproducible and offline-safe.
 - **No real named critic is quoted.** The source categories are descriptive, not attributions.
 - **Stars are metadata, not training labels for the selected film's verdict.** The classical model is trained on star-derived
   labels across all five films, but its evaluation on the selected film is out-of-fold. VADER and DistilBERT never see stars.
-- **Class balance is deliberate.** The set includes warm consensus (*Shawshank*), a divided blockbuster (*The Dark Knight*),
-  a polarising musical (*La La Land*), a cerebral puzzle (*Inception*), and a notorious misfire (*Cats*).
+- **Class balance is deliberate.** The set includes intense mass action redemption (*TEMPER*), global mythic epic spectacle (*RRR*),
+  commanding rural faction drama (*RYALASEEMA RAMANNA CHOWDARY*), and psychological crisis tension (*PARADISE*).
 """
         )
 
@@ -572,7 +571,7 @@ def main() -> None:
     ui.hero(len(corpus), int(corpus["word_count"].sum()), len(FILMS))
     use_transformer, band = render_sidebar(corpus)
 
-    ui.section_head("01", "Choose a film", "exactly five options · no free-text input")
+    ui.section_head("01", "Choose a film", "4 curated films · no free-text input")
     labels = [f"{item.title} · {item.year}" for item in FILMS]
     label_to_title = {label: item.title for label, item in zip(labels, FILMS)}
     selection = st.pills(

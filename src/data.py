@@ -44,8 +44,8 @@ def _validate(frame: pd.DataFrame) -> pd.DataFrame:
     if frame["review_id"].duplicated().any():
         raise CorpusError("review_id must be unique.")
     found_titles = tuple(frame["title"].drop_duplicates())
-    if set(found_titles) != set(FILM_TITLES) or len(found_titles) != 5:
-        raise CorpusError("Corpus must contain exactly the five configured films.")
+    if set(found_titles) != set(FILM_TITLES) or len(found_titles) != len(FILM_TITLES):
+        raise CorpusError(f"Corpus must contain exactly the {len(FILM_TITLES)} configured films.")
     if not frame["rating"].between(1, 5).all():
         raise CorpusError("Ratings must be integers from 1 to 5.")
     frame = frame.copy()

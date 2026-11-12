@@ -21,31 +21,29 @@ The app was built for the *Sentiment Analysis Dashboard for Books & Movies using
 - Exposes a **Language Lab** that shows every preprocessing stage for one review, plus per-model calls and word clouds.
 - Includes a **Corpus Explorer** with filters, charts, methodology notes, limitations, and a CSV download.
 
-## The five films
+## The Curated Films
 
-| # | Film | Year | Genre | Corpus character |
-|---|------|------|-------|------------------|
-| 01 | The Shawshank Redemption | 1994 | Prison drama | warm consensus |
-| 02 | The Dark Knight | 2008 | Crime thriller | divided blockbuster |
-| 03 | Inception | 2010 | Sci-fi heist | impressive but contested |
-| 04 | La La Land | 2016 | Musical romance | polarising romance |
-| 05 | Cats | 2019 | Musical fantasy | notorious misfire |
+| # | Film | Year | Genre | Poster | Corpus Character |
+|---|------|------|-------|:------:|------------------|
+| 01 | TEMPER | 2015 | Action crime drama | ![TEMPER](assets/posters/temper.jpg) | High-voltage moral redemption arc |
+| 02 | RRR | 2022 | Period action epic | ![RRR](assets/posters/rrr.jpg) | Global mythic spectacle & brotherhood |
+| 03 | RYALASEEMA RAMANNA CHOWDARY | 2000 | Faction drama | ![RC](assets/posters/rayalaseema_ramanna_chowdary.jpg) | Commanding rural justice & dialogue power |
+| 04 | PARADISE | 2023 | Psychological drama | ![PARADISE](assets/posters/paradise.jpg) | Slow-burning crisis tension & class divide |
 
-The mix is intentional: it exercises all three sentiment classes and gives the model-comparison charts something meaningful to disagree about.
+The mix exercises all three sentiment classes across critic capsules, audience reviews, and film blogs.
 
 ### Results at a glance
 
-Default settings: all three models active, neutral dead zone `±0.06`.
+Default settings: all three models active (VADER, TF-IDF + Logistic Regression, DistilBERT SST-2), neutral dead zone `±0.06`.
 
-| Film | Fused verdict | Score / 100 | Confidence | Avg stars |
-|---|---|---:|---:|---:|
-| The Shawshank Redemption | Positive | 76.8 | 80% | 4.12 |
-| The Dark Knight | Positive | 54.8 | 62% | 3.96 |
-| Inception | Positive | 59.6 | 78% | 3.62 |
-| La La Land | Positive | 69.2 | 79% | 3.38 |
-| Cats | Negative | 38.8 | 72% | 2.17 |
+| Film | Fused Verdict | Score / 100 | Confidence | Avg Stars | Agreement |
+|---|---|---:|---:|---:|---:|
+| TEMPER | Positive | 70.7 | 73% | 3.92 | 57% |
+| RRR | Positive | 76.1 | 84% | 4.25 | 74% |
+| RYALASEEMA RAMANNA CHOWDARY | Positive | 74.2 | 82% | 3.62 | 65% |
+| PARADISE | Positive | 76.9 | 83% | 4.00 | 67% |
 
-*The Dark Knight* is a useful stress case: the overall direction is positive, but VADER and DistilBERT read it as Neutral while the classical model reads Positive. The dashboard surfaces that disagreement instead of hiding it. Run `python scripts/model_report.py` to regenerate these numbers.
+*TEMPER* presents a fascinating test case where VADER scores lower on aggressive dialect and intense criminal vocabulary, while DistilBERT and TF-IDF detect the profound positive emotional redemption arc. Run `python scripts/model_report.py` to inspect these numbers.
 
 ## Quickstart
 

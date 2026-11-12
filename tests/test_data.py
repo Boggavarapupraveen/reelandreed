@@ -8,18 +8,18 @@ from src.data import CorpusError, corpus_for_title, corpus_stats, load_corpus
 
 def test_corpus_contract():
     corpus = load_corpus()
-    assert len(corpus) == 120
+    assert len(corpus) == len(FILM_TITLES) * 24
     assert set(corpus["title"].astype(str)) == set(FILM_TITLES)
-    assert corpus.groupby("title", observed=True).size().tolist() == [24, 24, 24, 24, 24]
+    assert corpus.groupby("title", observed=True).size().tolist() == [24] * len(FILM_TITLES)
     assert corpus["review_id"].is_unique
     assert corpus["rating"].between(1, 5).all()
     assert corpus["text"].str.len().min() > 60
 
 
 def test_lookup_and_stats():
-    frame = corpus_for_title("Cats")
+    frame = corpus_for_title("TEMPER")
     assert len(frame) == 24
-    assert set(frame["title"].astype(str)) == {"Cats"}
+    assert set(frame["title"].astype(str)) == {"TEMPER"}
     stats = corpus_stats(frame)
     assert stats["reviews"] == 24
     assert stats["words"] > 200
